@@ -15,8 +15,12 @@ class ProductManager{
             code: code,
             stock: stock
         }
-
-        this.products.push(item);
+        const found = this.products.find(product => product.code === code)
+        if(!found){
+            this.products.push(item);
+        }else{
+            console.log('El producto ya existe')
+        }
     }
 
     getProductById(id){
