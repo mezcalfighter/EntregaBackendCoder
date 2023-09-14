@@ -63,7 +63,6 @@ class ProductManager{
         try{
             const products = await this.readProducts(this.path)
             const newProducts = products.filter(product=>product.id !== id)
-            await this.writeFile(newProducts)
         }catch(err){
             console.log(err)
         }
@@ -75,7 +74,10 @@ class ProductManager{
             const found = await this.getProductById(id)
             if(found){
                 await this.deleteProduct(id)
-                await this.addProduct(...newProduct)
+                let newArray = products.filter(product=>product.id !== id)
+                newProduct.id = id
+                newArray.push(newProduct)
+                await this.writeProducts(newArray)
             }
         }catch(err){
             console.log(err)
