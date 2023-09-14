@@ -59,7 +59,28 @@ class ProductManager{
         }
     }
 
-    updateProduct(){}
+    async deleteProduct(id){
+        try{
+            const products = await this.readProducts(this.path)
+            const newProducts = products.filter(product=>product.id !== id)
+            await this.writeFile(newProducts)
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+    async updateProduct(id,newProduct){
+        try{
+            const products = await this.getProducts(this.path)
+            const found = await this.getProductById(id)
+            if(found){
+                await this.deleteProduct(id)
+                await this.addProduct(...newProduct)
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
 
     async getProductById(id){
         const products = await this.getProducts()
@@ -67,7 +88,8 @@ class ProductManager{
         if(found_obj){
             return found_obj
         }else{
-            console.log('Not found')
+            console.log("User doesn't exist")
+            return false
         }
     }
 }
