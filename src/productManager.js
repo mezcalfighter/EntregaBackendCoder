@@ -8,10 +8,12 @@ class ProductManager{
         this.path = path
     }
 
-    async readProducts(path){
+    async readProducts(path,queryObj){
+        const {limit} = queryObj
         if(fs.existsSync(path)){
             const db_file = await fs.promises.readFile(path,"utf-8")
-            return JSON.parse(db_file)
+            const db_json = JSON.parse(db_file)
+            return limit ? db_json.slice(0, limit) : db_json
         }else{
             return []
         }
@@ -28,7 +30,7 @@ class ProductManager{
 
     async addProduct(title,description,product,price,thumbnail,code,stock){   
         try{
-            let products = await this.readProducts(this.path)
+            let products = await this.readProducts(this.path,{})
             const item = {
                 id: products.lenght + 1,
                 title: title,
@@ -54,7 +56,8 @@ class ProductManager{
 
     async getProducts(){
         try{
-            let db = await this.readProducts(this.path)
+
+            let db = await this.readProducts(this.path,{})
             return db
         }catch(err){
             console.log(err)
@@ -63,7 +66,7 @@ class ProductManager{
 
     async deleteProduct(id){
         try{
-            const products = await this.readProducts(this.path)
+            const products = await this.readProducts(this.path,{})
             const newProducts = products.filter(product=>product.id !== id)
         }catch(err){
             console.log(err)
