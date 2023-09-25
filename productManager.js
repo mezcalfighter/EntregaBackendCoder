@@ -1,5 +1,7 @@
-const fs = require("fs")
-const util = require("util")
+import fs from "fs"
+import util from "util"
+//const fs = require("fs")
+//const util = require("util")
 
 class ProductManager{
     constructor(path){
@@ -28,7 +30,7 @@ class ProductManager{
         try{
             let products = await this.readProducts(this.path)
             const item = {
-                id: products.length + 1,
+                id: products.lenght + 1,
                 title: title,
                 description: description,
                 product: product,
@@ -97,7 +99,10 @@ class ProductManager{
 }
 
 const newProduct = new ProductManager("db.json");
-newProduct.addProduct("Arroz","Arroz de 1kg","Arroz","$100","https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cronista.com%2Fclase%2Fmercados%2FArroz-precios-estables-y-buenas-expectativas-para-la-cosecha-20210225-0001.html&psig=AOvVaw0Q4Z3X0Z3Z2Q4QX6Q4QX6Q&ust=1634178975213000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJjQ4ZqH0_MCFQAAAAAdAAAAABAD","1234","10")
+
+export default newProduct
+
+//newProduct.addProduct("Arroz","Arroz de 1kg","Arroz","$100","https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.cronista.com%2Fclase%2Fmercados%2FArroz-precios-estables-y-buenas-expectativas-para-la-cosecha-20210225-0001.html&psig=AOvVaw0Q4Z3X0Z3Z2Q4QX6Q4QX6Q&ust=1634178975213000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJjQ4ZqH0_MCFQAAAAAdAAAAABAD","1234","10")
 //newProduct.getProducts()
 //newProduct.getProductById(1)
 //console.log(newProduct.getProductById(1))
