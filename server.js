@@ -1,5 +1,6 @@
 import express from "express"
 import newProduct from "./src/productManager.js"
+import productsRouter from "./src/routes/products.router.js"
 
 const app = express()
 
@@ -30,7 +31,18 @@ app.get("/api/products/:id", async(req,res)=>{
     }
 })
 
-//Get products by ID (send the ID and receive the entire product)
+// PRODUCTOS
+// api/products
+// POST - Add new product
+// PUT /:pid - Actualizar producto (no se elimina ni actualiza el id)
+// DELETE /:pid elimina el producto con el pid indicado
+
+// CARRITO
+// api/carts
+// POST - Crear un carrito: idNumber, array productos
+// GET /:cid - Productos que pertenezcan al carrito
+// POST /:cid/product/:pid - solo debe contener el id del producto, es crucial no agregar el producto completo. Cantidad. El producto se agrega de uno en uno. Si el producto ya existe entonces es incremental el numero
+
 
 app.listen(3000,()=>{
     console.log("Server is running @ http://localhost:3000")
