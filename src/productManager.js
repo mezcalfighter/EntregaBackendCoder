@@ -23,34 +23,33 @@ class ProductManager{
         try{
             await fs.promises.writeFile(this.path,products)
         }catch(err){
-            console.log("items couldn't be written. Please try again later")
-            console.log(err)
+            return err
         }
     }
 
-    async addProduct(title,description,product,price,thumbnail,code,stock){   
+    async addProduct(title,description,price,thumbnail,code,stock){   
         try{
             let products = await this.readProducts(this.path,{})
             const item = {
                 id: products.lenght + 1,
                 title: title,
                 description: description,
-                product: product,
+                status: true,
                 price: price,
                 thumbnail: thumbnail,
                 code: code,
                 stock: stock
             }
             const found = products.find(product => product.code === code)
-            console.log(found)
             if(!found){
                 products.push(item);
                 await this.writeProducts(JSON.stringify(products))
+                return item
             }else{
-                console.log('El producto ya existe')
+                return false
             }
         }catch(err){
-            console.log("Error en la BD. Contacta admin")
+            return err
         }
     }
 
@@ -60,16 +59,19 @@ class ProductManager{
             let db = await this.readProducts(this.path,{})
             return db
         }catch(err){
-            console.log(err)
+            return err
         }
     }
 
     async deleteProduct(id){
         try{
             const products = await this.readProducts(this.path,{})
-            const newProducts = products.filter(product=>product.id !== id)
+            const productDeleted = products.find(product=>product.id === id)
+            if(productDeleted){
+                const newProducts = products.filter(product=>product.id !== id)
+            }
         }catch(err){
-            console.log(err)
+            return err
         }
     }
 
@@ -83,9 +85,10 @@ class ProductManager{
                 newProduct.id = id
                 newArray.push(newProduct)
                 await this.writeProducts(newArray)
+                return newProduct
             }
         }catch(err){
-            console.log(err)
+            return err
         }
     }
 
@@ -95,7 +98,6 @@ class ProductManager{
         if(found_obj){
             return found_obj
         }else{
-            console.log("User doesn't exist")
             return false
         }
     }
