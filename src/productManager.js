@@ -69,6 +69,10 @@ class ProductManager{
             const productDeleted = products.find(product=>product.id === id)
             if(productDeleted){
                 const newProducts = products.filter(product=>product.id !== id)
+                await this.writeProducts(newProducts)
+                return productDeleted
+            }else{
+                return false
             }
         }catch(err){
             return err
@@ -103,7 +107,7 @@ class ProductManager{
     }
 }
 
-const newProduct = new ProductManager("db.json");
+const newProduct = new ProductManager("../db.json");
 
 export default newProduct
 
